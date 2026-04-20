@@ -9,7 +9,9 @@ pmapToTranscriptF(
   transcripts,
   ignore.strand = FALSE,
   x.is.sorted = TRUE,
-  tx.is.sorted = TRUE
+  tx.is.sorted = TRUE,
+  reduce.ranges = TRUE,
+  set.seqlengths = TRUE
 )
 }
 \arguments{
@@ -36,6 +38,14 @@ in decreasing order within group, default: TRUE}
 \item{tx.is.sorted}{if transcripts is a GRangesList object,
 are "-" strand groups pre-sorted in decreasing order within group,
 default: TRUE}
+
+\item{reduce.ranges}{logical, default TRUE. Reduce mapped ranges per group
+after mapping. Set to FALSE if you know the mapped output should retain
+exon-level structure and want to skip that post-processing step.}
+
+\item{set.seqlengths}{logical, default TRUE. Add transcript widths as
+seqlengths on GRanges output. Set to FALSE to skip that metadata work when
+it is not needed downstream.}
 }
 \value{
 object of same class as input x, names from ranges are kept.
