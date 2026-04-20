@@ -570,7 +570,7 @@ libs_are_loaded <- function(lib_names, envir) {
 #'
 #' We advice you to not use this directly, as other function are more safe
 #' for library type conversions. See family description below. This is
-#' mostly used internally in ORFik. It is only adviced to use if large bam files
+#' mostly used internally in ORFik. It is only advised to use if large bam files
 #' are already loaded in R and conversions are wanted from those.
 #'
 #' See \code{\link{export.ofst}}, \code{\link{export.wiggle}},

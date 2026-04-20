@@ -107,6 +107,18 @@ test_that("widthPerGroup works as intended", {
   expect_equal(widths, c(tx1_1 = 17, tx1_2 = 18))
 })
 
+test_that("widthPerGroup keeps empty groups in place", {
+  grl_empty_middle <- GRangesList(
+    tx1 = GRanges("1", IRanges(c(1, 5), c(2, 6)), "+"),
+    tx2 = GRanges(),
+    tx3 = GRanges("1", IRanges(10, 12), "+")
+  )
+
+  expect_equal(widthPerGroup(grl_empty_middle, FALSE), c(4L, 0L, 3L))
+  expect_equal(widthPerGroup(grl_empty_middle, TRUE),
+               c(tx1 = 4L, tx2 = 0L, tx3 = 3L))
+})
+
 test_that("firstExonPerGroup works as intended", {
 
   firstExons <- firstExonPerGroup(grl)
@@ -409,6 +421,24 @@ test_that("pmapToTranscriptF supports one transcript to one range inputs", {
   expect_s4_class(res, "IRanges")
   expect_equal(start(res), 1L)
   expect_equal(end(res), 6L)
+})
+
+test_that("pmapToTranscriptF fast-path arguments skip optional post-processing", {
+  x <- GRangesList(
+    tx1 = GRanges("1", IRanges(c(1, 10), c(5, 15)), "+")
+  )
+  tx <- GRangesList(
+    tx1 = GRanges("1", IRanges(c(1, 10), c(5, 15)), "+")
+  )
+
+  reduced <- pmapToTranscriptF(x, tx)
+  raw <- pmapToTranscriptF(x, tx, reduce.ranges = FALSE, set.seqlengths = FALSE)
+
+  expect_equal(start(reduced[[1]]), 1L)
+  expect_equal(end(reduced[[1]]), 11L)
+  expect_equal(start(raw[[1]]), c(1L, 6L))
+  expect_equal(end(raw[[1]]), c(5L, 11L))
+  expect_true(all(is.na(seqlengths(unlist(raw, use.names = FALSE)))))
 })
 
 test_that("pmapToTranscriptF supports many-to-many and recycling modes", {

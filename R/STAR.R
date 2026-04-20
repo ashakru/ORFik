@@ -502,7 +502,7 @@ STAR.align.internal <- function(call, output.dir, multiQC = FALSE, steps = "auto
 #' minimum 30GB memory on genomes like human, rat, zebrafish etc.
 #'
 #' ORFik for now only uses precompiled STAR binaries, so if you already have
-#' a STAR version it is adviced to redownload the same version, since
+#' a STAR version it is advised to redownload the same version, since
 #' STAR genome indices usually does not work between STAR versions.
 #' @param folder path to folder for download, fille will be named
 #' "STAR-version", where version is version wanted.
@@ -659,4 +659,3 @@ validate_star_input <- function(script.single, index.dir, keep.contaminants.type
       stop("STAR folder alignment script not found, check path of script!")
   }
 }
-
